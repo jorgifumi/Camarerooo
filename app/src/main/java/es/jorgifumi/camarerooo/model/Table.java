@@ -7,11 +7,11 @@ import java.util.LinkedList;
  */
 public class Table {
     private String mName;
-    private String mNumDiners;
+    private int mNumDiners;
     private Menu mOrders;
     private Float mBill;
 
-    public Table(String name, String numDiners, Menu orders, Float bill) {
+    public Table(String name, int numDiners, Menu orders, Float bill) {
         mName = name;
         mNumDiners = numDiners;
         mOrders = orders;
@@ -26,11 +26,11 @@ public class Table {
         mName = name;
     }
 
-    public String getNumDiners() {
+    public int getNumDiners() {
         return mNumDiners;
     }
 
-    public void setNumDiners(String numDiners) {
+    public void setNumDiners(int numDiners) {
         mNumDiners = numDiners;
     }
 
