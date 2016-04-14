@@ -8,23 +8,28 @@ import java.util.Set;
 public class Dish {
     private String mName;
     private String mDescription;
+    private Float mPrice;
     private Set<Allergen> mAllergens;
     private String mImageURL;
     private String mNotes;
 
-    public Dish(String name, String description, Set<Allergen> allergens, String imageURL, String notes) {
+
+    public Dish(String name, String description, Float price, Set<Allergen> allergens, String imageURL, String notes) {
         mName = name;
         mDescription = description;
+        mPrice = price;
         mAllergens = allergens;
         mImageURL = imageURL;
         mNotes = notes;
     }
 
-    public Dish(String name, String description, Set<Allergen> allergens, String imageURL) {
+    public Dish(String name, String description, Float price, Set<Allergen> allergens, String imageURL) {
         mName = name;
         mDescription = description;
+        mPrice = price;
         mAllergens = allergens;
         mImageURL = imageURL;
+        mNotes = "";
     }
 
     public String getName() {
