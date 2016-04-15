@@ -49,4 +49,9 @@ public class Table {
     public void setBill(Float bill) {
         mBill = bill;
     }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }

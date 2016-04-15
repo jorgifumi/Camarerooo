@@ -1,6 +1,7 @@
 package es.jorgifumi.camarerooo.activity;
 
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,9 +37,14 @@ public class TablesActivity extends AppCompatActivity {
         addTable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.v(TAG, "Botón añadir pulsado");
+                addTable();
             }
         });
 
+    }
+
+    private void addTable() {
+        Log.v(TAG, "Botón añadir pulsado");
+        Snackbar.make(findViewById(android.R.id.content), "Boton añadir mesa pulsado", Snackbar.LENGTH_LONG).show();
     }
 }
