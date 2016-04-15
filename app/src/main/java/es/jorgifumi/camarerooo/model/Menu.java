@@ -9,6 +9,10 @@ public class Menu {
 
     private LinkedList<Dish> mDishes;
 
+    public Menu() {
+        mDishes = new LinkedList<Dish>();
+    }
+
     public Menu(LinkedList<Dish> dishes) {
         mDishes = dishes;
     }

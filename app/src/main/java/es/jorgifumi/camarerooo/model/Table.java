@@ -18,6 +18,13 @@ public class Table {
         mBill = bill;
     }
 
+    public Table(String name, int numDiners) {
+        mName = name;
+        mNumDiners = numDiners;
+        mOrders = new Menu();
+        mBill = 0.00f;
+    }
+
     public String getName() {
         return mName;
     }

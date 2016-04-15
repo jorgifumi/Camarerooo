@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Camarerooo</string>
+    <string name="table_name">Nombre mesa</string>
+    <string name="num_diners">Número de comensales</string>
+    <string name="cancel">CANCELAR</string>
+    <string name="add_table">AÑADIR MESA</string>
+    <string name="please_input">Por favor introduzca los datos de la nueva mesa</string>
 </resources>

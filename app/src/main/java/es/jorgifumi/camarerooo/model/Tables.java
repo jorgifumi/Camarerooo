@@ -11,8 +11,8 @@ public class Tables {
     public Tables() {
         mTables = new LinkedList<Table>();
 
-        mTables.add(new Table("Mesa 3", 4, new Menu(new LinkedList<Dish>()),0.00f));
-        mTables.add(new Table("Mesa prueba", 5, new Menu(new LinkedList<Dish>()),0.00f));
+//        mTables.add(new Table("Mesa 3", 4, new Menu(new LinkedList<Dish>()),0.00f));
+//        mTables.add(new Table("Mesa prueba", 5, new Menu(new LinkedList<Dish>()),0.00f));
     }
 
     public LinkedList<Table> getTables() {
@@ -21,5 +21,9 @@ public class Tables {
 
     public void setTables(LinkedList<Table> tables) {
         mTables = tables;
+    }
+
+    public void addTable(Table table) {
+        mTables.add(table);
     }
 }
