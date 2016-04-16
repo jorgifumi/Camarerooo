@@ -5,18 +5,27 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Set;
 
 import es.jorgifumi.camarerooo.R;
+import es.jorgifumi.camarerooo.model.Allergen;
+import es.jorgifumi.camarerooo.model.Dish;
+import es.jorgifumi.camarerooo.model.Menu;
 
 public class MenuActivity extends AppCompatActivity {
+    private static final String TAG = "MenuActivity";
+
+    private Menu mMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +33,8 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        downloadMenu();
 
         //GridView gridMenu = new GridView(this, )
     }
@@ -51,10 +62,24 @@ public class MenuActivity extends AppCompatActivity {
                 }
             }
 
-            // Process JSON
+            Log.v(TAG, "JSON Downloaded");
 
+            // Process JSON
             JSONObject jsonRoot = new JSONObject(sb.toString());
-            
+            JSONArray dishes = jsonRoot.getJSONArray("dishes");
+
+            for (int i=1; i<dishes.length(); i++) {
+                JSONObject dish = dishes.getJSONObject(i);
+                String name = dish.getString("name");
+                String description = dish.getString("description");
+                Float price = Float.valueOf(dish.getString("price"));
+                Set<Allergen> allergens = (Set<Allergen>) dish.getJSONArray("allergens");
+                String imageURL = dish.getString("image");
+
+                mMenu.addDish(new Dish(name, description, price, allergens,imageURL));
+                Log.v(TAG, name);
+            }
+
 
         } catch (Exception ex) {
             ex.printStackTrace();

@@ -78,8 +78,8 @@ public class TableActivity extends AppCompatActivity {
     }
 
     private void addDish() {
-        Snackbar.make(findViewById(android.R.id.content), "Add dish", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
     }
 
     private void viewTotal() {

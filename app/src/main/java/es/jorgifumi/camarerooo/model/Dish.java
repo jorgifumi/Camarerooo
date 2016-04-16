@@ -72,5 +72,3 @@ public class Dish {
         mNotes = notes;
     }
 }
-
-enum Allergen { WHEAT, CRUSTACEANS, EGGS, FISH, PEANUTS, MILK, SOYA }

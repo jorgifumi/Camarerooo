@@ -25,4 +25,8 @@ public class Menu implements Serializable {
     public void setDishes(LinkedList<Dish> dishes) {
         mDishes = dishes;
     }
+
+    public void addDish(Dish dish) {
+        mDishes.add(dish);
+    }
 }
