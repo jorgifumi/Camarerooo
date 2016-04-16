@@ -47,20 +47,19 @@ public class TablesActivity extends AppCompatActivity implements AddTableDialog.
     }
 
     private void addTable() {
-//        Log.v(TAG, "Botón añadir pulsado");
-//        Snackbar.make(findViewById(android.R.id.content), "Boton añadir mesa pulsado", Snackbar.LENGTH_LONG).show();
-
+        Log.v(TAG, "Botón añadir pulsado");
         new AddTableDialog().show(getSupportFragmentManager(), "AddTableDialog");
     }
 
     @Override
-    public void onAddTableButtonClick() {
-        tables.addTable(new Table("Mesa prueba add", 6));
+    public void onAddTableButtonClick(Table newTable) {
+        tables.addTable(newTable);
         adapter.notifyDataSetChanged();
+        Snackbar.make(findViewById(android.R.id.content), "Mesa añadida", Snackbar.LENGTH_LONG).show();
     }
 
     @Override
     public void onCancelButtonClick() {
-
+        Snackbar.make(findViewById(android.R.id.content), "Añadir mesa cancelado", Snackbar.LENGTH_LONG).show();
     }
 }

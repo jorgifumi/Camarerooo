@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import es.jorgifumi.camarerooo.R;
 import es.jorgifumi.camarerooo.model.Table;
@@ -48,10 +49,14 @@ public class AddTableDialog extends DialogFragment {
         Button addTable = (Button) v.findViewById(R.id.button_add_table);
         Button cancel = (Button) v.findViewById(R.id.button_cancel);
 
+        final EditText tableName = (EditText) v.findViewById(R.id.nombre_mesa_input);
+        final EditText numDiners = (EditText) v.findViewById(R.id.num_comensales_input);
+
         addTable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onAddTableButtonClick();
+                Table newTable = new Table(tableName.getText().toString(), Integer.parseInt(numDiners.getText().toString()));
+                listener.onAddTableButtonClick(newTable);
                 dismiss();
             }
         });
@@ -68,7 +73,7 @@ public class AddTableDialog extends DialogFragment {
     }
 
     public interface OnAddTableDialogListener {
-        void onAddTableButtonClick();
+        void onAddTableButtonClick(Table newTable);
         void onCancelButtonClick();
     }
 
