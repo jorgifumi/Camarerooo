@@ -18,9 +18,12 @@ import es.jorgifumi.camarerooo.model.Tables;
 
 public class TablesActivity extends AppCompatActivity implements AddTableDialog.OnAddTableDialogListener {
     private static final String TAG = "TablesActivity";
+    public static final String EXTRA_TABLE_UPDATED = "es.jorgifumi.camarerooo.EXTRA_TABLE_UPDATED";
+
     private Tables mTables;
     private ArrayAdapter<Table> mTableArrayAdapter;
     public static int VIEW_TABLE = 1;
+    private int mSelectedTableIdx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +67,8 @@ public class TablesActivity extends AppCompatActivity implements AddTableDialog.
 
     private void viewTable(Table table, int position) {
         Intent intent = new Intent(this, TableActivity.class);
-        intent.putExtra("table_selected", table);
-        intent.putExtra("position", position);
+        intent.putExtra(TableActivity.EXTRA_CURRENT_TABLE, table);
+        mSelectedTableIdx = position;
         startActivityForResult(intent, VIEW_TABLE);
     }
 
@@ -88,9 +91,8 @@ public class TablesActivity extends AppCompatActivity implements AddTableDialog.
         if (requestCode == VIEW_TABLE) {
             // Volvemos de la pantalla de detalle de Mesa
             if (resultCode == RESULT_OK) {
-                Table selectedTable = (Table) data.getSerializableExtra("table_updated");
-                int position = data.getIntExtra("position", 0);
-                mTables.addTable(position, selectedTable);
+                Table selectedTable = (Table) data.getSerializableExtra(EXTRA_TABLE_UPDATED);
+                mTables.addTable(mSelectedTableIdx, selectedTable);
             } else {
 
             }

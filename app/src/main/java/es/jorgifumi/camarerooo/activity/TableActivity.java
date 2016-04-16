@@ -17,10 +17,11 @@ import es.jorgifumi.camarerooo.model.Table;
 
 public class TableActivity extends AppCompatActivity {
     private static final String TAG = "TableActivity";
+    public static final String EXTRA_CURRENT_TABLE = "es.jorgifumi.camarerooo.EXTRA_CURRENT_TABLE";
 
     private Table mTable;
     private ArrayAdapter<Dish> mOrdersArrayAdapter;
-    private int mPosition;
+
 
 
     @Override
@@ -32,7 +33,8 @@ public class TableActivity extends AppCompatActivity {
 
         ListView ordersList = (ListView) findViewById(R.id.list_orders);
 
-        mTable = new Table("Prueba", 6);
+        mTable = (Table) getIntent().getSerializableExtra(EXTRA_CURRENT_TABLE);
+        Log.v(TAG, "Tabla recibida");
 
         mOrdersArrayAdapter = new ArrayAdapter<Dish>(
                 this,
@@ -42,8 +44,8 @@ public class TableActivity extends AppCompatActivity {
 
         ordersList.setAdapter(mOrdersArrayAdapter);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton addDishButton = (FloatingActionButton) findViewById(R.id.button_add_dish);
+        addDishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addDish();
@@ -51,7 +53,7 @@ public class TableActivity extends AppCompatActivity {
         });
 
         FloatingActionButton totalButton = (FloatingActionButton) findViewById(R.id.button_total);
-        fab.setOnClickListener(new View.OnClickListener() {
+        totalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 viewTotal();
@@ -60,25 +62,13 @@ public class TableActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        mTable = (Table) data.getSerializableExtra("table_selected");
-        mPosition = data.getIntExtra("position", 0);
-        mOrdersArrayAdapter.notifyDataSetChanged();
-        Log.v(TAG, "Tabla recibida");
-
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    protected void onDestroy() {
+        super.onDestroy();
 
         Intent returnIntent = new Intent();
         if (mTable != null) {
 
-            returnIntent.putExtra("table_updated", mTable);
-            returnIntent.putExtra("position", mPosition);
+            returnIntent.putExtra(TablesActivity.EXTRA_TABLE_UPDATED, mTable);
             setResult(RESULT_OK, returnIntent);
 
         } else {
