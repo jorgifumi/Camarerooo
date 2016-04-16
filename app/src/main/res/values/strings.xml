@@ -6,4 +6,5 @@
     <string name="add_table">AÑADIR MESA</string>
     <string name="please_input">Por favor introduzca los datos de la nueva mesa</string>
     <string name="title_activity_table">TableActivity</string>
+    <string name="title_activity_menu">MenuActivity</string>
 </resources>
