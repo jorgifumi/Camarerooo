@@ -1,11 +1,12 @@
 package es.jorgifumi.camarerooo.model;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
 /**
  * Created by jorgifumi on 14/04/16.
  */
-public class Menu {
+public class Menu implements Serializable {
 
     private LinkedList<Dish> mDishes;
 

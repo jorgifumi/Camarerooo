@@ -18,7 +18,7 @@ import es.jorgifumi.camarerooo.model.Table;
  * Created by jorgifumi on 15/04/16.
  */
 public class AddTableDialog extends DialogFragment {
-    OnAddTableDialogListener listener;
+    OnAddTableDialogListener mListener;
 
     @NonNull
     @Override
@@ -31,7 +31,7 @@ public class AddTableDialog extends DialogFragment {
         super.onAttach(activity);
 
         try {
-            listener = (OnAddTableDialogListener) activity;
+            mListener = (OnAddTableDialogListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " no implementó OnSimpleDialogListener");
         }
@@ -56,7 +56,7 @@ public class AddTableDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 Table newTable = new Table(tableName.getText().toString(), Integer.parseInt(numDiners.getText().toString()));
-                listener.onAddTableButtonClick(newTable);
+                mListener.onAddTableButtonClick(newTable);
                 dismiss();
             }
         });
@@ -64,7 +64,7 @@ public class AddTableDialog extends DialogFragment {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onCancelButtonClick();
+                mListener.onCancelButtonClick();
                 dismiss();
             }
         });

@@ -1,29 +1,30 @@
 package es.jorgifumi.camarerooo.model;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 /**
  * Created by jorgifumi on 14/04/16.
  */
 public class Tables {
-    private LinkedList<Table> mTables;
+    private ArrayList<Table> mTables;
 
     public Tables() {
-        mTables = new LinkedList<Table>();
-
-//        mTables.add(new Table("Mesa 3", 4, new Menu(new LinkedList<Dish>()),0.00f));
-//        mTables.add(new Table("Mesa prueba", 5, new Menu(new LinkedList<Dish>()),0.00f));
+        mTables = new ArrayList<Table>();
     }
 
-    public LinkedList<Table> getTables() {
+    public ArrayList<Table> getTables() {
         return mTables;
     }
 
-    public void setTables(LinkedList<Table> tables) {
+    public void setTables(ArrayList<Table> tables) {
         mTables = tables;
     }
 
     public void addTable(Table table) {
         mTables.add(table);
+    }
+
+    public void addTable(int position, Table table) {
+        mTables.add(position, table);
     }
 }

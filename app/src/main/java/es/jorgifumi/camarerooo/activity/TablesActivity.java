@@ -1,11 +1,13 @@
 package es.jorgifumi.camarerooo.activity;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -16,8 +18,9 @@ import es.jorgifumi.camarerooo.model.Tables;
 
 public class TablesActivity extends AppCompatActivity implements AddTableDialog.OnAddTableDialogListener {
     private static final String TAG = "TablesActivity";
-    private Tables tables;
-    private ArrayAdapter<Table> adapter;
+    private Tables mTables;
+    private ArrayAdapter<Table> mTableArrayAdapter;
+    public static int VIEW_TABLE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,15 +29,23 @@ public class TablesActivity extends AppCompatActivity implements AddTableDialog.
 
         ListView tablesList = (ListView) findViewById(R.id.list_tables);
 
-        tables = new Tables();
+        mTables = new Tables();
 
-        adapter = new ArrayAdapter<Table>(
+        mTableArrayAdapter = new ArrayAdapter<Table>(
                 this,
                 android.R.layout.simple_list_item_1,
-                tables.getTables()
+                mTables.getTables()
         );
 
-        tablesList.setAdapter(adapter);
+        tablesList.setAdapter(mTableArrayAdapter);
+
+        tablesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Table selectedTable = mTables.getTables().get(position);
+                viewTable(selectedTable, position);
+            }
+        });
 
         FloatingActionButton addTable = (FloatingActionButton) findViewById(R.id.button_add);
         addTable.setOnClickListener(new View.OnClickListener() {
@@ -51,15 +62,39 @@ public class TablesActivity extends AppCompatActivity implements AddTableDialog.
         new AddTableDialog().show(getSupportFragmentManager(), "AddTableDialog");
     }
 
+    private void viewTable(Table table, int position) {
+        Intent intent = new Intent(this, TableActivity.class);
+        intent.putExtra("table_selected", table);
+        intent.putExtra("position", position);
+        startActivityForResult(intent, VIEW_TABLE);
+    }
+
     @Override
     public void onAddTableButtonClick(Table newTable) {
-        tables.addTable(newTable);
-        adapter.notifyDataSetChanged();
+        mTables.addTable(newTable);
+        mTableArrayAdapter.notifyDataSetChanged();
         Snackbar.make(findViewById(android.R.id.content), "Mesa añadida", Snackbar.LENGTH_LONG).show();
     }
 
     @Override
     public void onCancelButtonClick() {
         Snackbar.make(findViewById(android.R.id.content), "Añadir mesa cancelado", Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == VIEW_TABLE) {
+            // Volvemos de la pantalla de detalle de Mesa
+            if (resultCode == RESULT_OK) {
+                Table selectedTable = (Table) data.getSerializableExtra("table_updated");
+                int position = data.getIntExtra("position", 0);
+                mTables.addTable(position, selectedTable);
+            } else {
+
+            }
+
+        }
     }
 }
