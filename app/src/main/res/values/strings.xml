@@ -8,4 +8,6 @@
     <string name="title_activity_table">TableActivity</string>
     <string name="title_activity_menu">MenuActivity</string>
     <string name="title_activity_dish">DishActivity</string>
+    <string name="notes">Notas</string>
+    <string name="add">AÑADIR</string>
 </resources>

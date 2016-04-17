@@ -19,10 +19,10 @@ import es.jorgifumi.camarerooo.model.Tables;
 public class TablesActivity extends AppCompatActivity implements AddTableDialog.OnAddTableDialogListener {
     private static final String TAG = "TablesActivity";
     public static final String EXTRA_TABLE_UPDATED = "es.jorgifumi.camarerooo.EXTRA_TABLE_UPDATED";
+    public static int VIEW_TABLE = 1;
 
     private Tables mTables;
     private ArrayAdapter<Table> mTableArrayAdapter;
-    public static int VIEW_TABLE = 1;
     private int mSelectedTableIdx;
 
     @Override
@@ -30,9 +30,33 @@ public class TablesActivity extends AppCompatActivity implements AddTableDialog.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tables);
 
-        ListView tablesList = (ListView) findViewById(R.id.list_tables);
-
         mTables = new Tables();
+
+        FloatingActionButton addTable = (FloatingActionButton) findViewById(R.id.button_add);
+        addTable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addTable();
+            }
+        });
+
+    }
+
+    private void addTable() {
+        new AddTableDialog().show(getSupportFragmentManager(), "AddTableDialog");
+    }
+
+    private void viewTable(Table table, int position) {
+        Intent intent = new Intent(this, TableActivity.class);
+        intent.putExtra(TableActivity.EXTRA_CURRENT_TABLE, table);
+        mSelectedTableIdx = position;
+        startActivityForResult(intent, VIEW_TABLE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ListView tablesList = (ListView) findViewById(R.id.list_tables);
 
         mTableArrayAdapter = new ArrayAdapter<Table>(
                 this,
@@ -49,27 +73,6 @@ public class TablesActivity extends AppCompatActivity implements AddTableDialog.
                 viewTable(selectedTable, position);
             }
         });
-
-        FloatingActionButton addTable = (FloatingActionButton) findViewById(R.id.button_add);
-        addTable.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addTable();
-            }
-        });
-
-    }
-
-    private void addTable() {
-        Log.v(TAG, "Botón añadir pulsado");
-        new AddTableDialog().show(getSupportFragmentManager(), "AddTableDialog");
-    }
-
-    private void viewTable(Table table, int position) {
-        Intent intent = new Intent(this, TableActivity.class);
-        intent.putExtra(TableActivity.EXTRA_CURRENT_TABLE, table);
-        mSelectedTableIdx = position;
-        startActivityForResult(intent, VIEW_TABLE);
     }
 
     @Override
@@ -89,10 +92,11 @@ public class TablesActivity extends AppCompatActivity implements AddTableDialog.
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == VIEW_TABLE) {
-            // Volvemos de la pantalla de detalle de Mesa
+
             if (resultCode == RESULT_OK) {
                 Table selectedTable = (Table) data.getSerializableExtra(EXTRA_TABLE_UPDATED);
-                mTables.addTable(mSelectedTableIdx, selectedTable);
+                mTables.setTable(mSelectedTableIdx, selectedTable);
+                Log.v(TAG, selectedTable.getOrders().toString());
             } else {
 
             }

@@ -42,7 +42,7 @@ public class AddTableDialog extends DialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        View v = inflater.inflate(R.layout.add_table, null);
+        View v = inflater.inflate(R.layout.add_table_dialog_fragment, null);
 
         builder.setView(v);
 

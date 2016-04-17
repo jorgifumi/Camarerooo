@@ -24,7 +24,7 @@ public class Tables {
         mTables.add(table);
     }
 
-    public void addTable(int position, Table table) {
-        mTables.add(position, table);
+    public void setTable(int position, Table table) {
+        mTables.set(position, table);
     }
 }
