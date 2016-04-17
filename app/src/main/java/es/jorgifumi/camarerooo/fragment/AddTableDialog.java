@@ -55,6 +55,7 @@ public class AddTableDialog extends DialogFragment {
         addTable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // TODO: Validate data
                 Table newTable = new Table(tableName.getText().toString(), Integer.parseInt(numDiners.getText().toString()));
                 mListener.onAddTableButtonClick(newTable);
                 dismiss();

@@ -2,7 +2,6 @@ package es.jorgifumi.camarerooo.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Set;
 
 /**
  * Created by jorgifumi on 13/04/16.

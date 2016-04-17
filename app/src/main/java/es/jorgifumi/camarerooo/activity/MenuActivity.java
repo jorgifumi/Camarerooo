@@ -47,7 +47,7 @@ public class MenuActivity extends AppCompatActivity implements AddDishDialogFrag
         setSupportActionBar(toolbar);
 
         try {
-            sUrl = new URL("http://www.mocky.io/v2/5713ec7c100000b220a413f2");
+            sUrl = new URL("http://www.mocky.io/v2/571404851000008423a413f4");
         } catch (MalformedURLException ex) {
             ex.printStackTrace();
         }
