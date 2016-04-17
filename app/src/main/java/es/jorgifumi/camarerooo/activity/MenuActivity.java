@@ -1,12 +1,14 @@
 package es.jorgifumi.camarerooo.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
 
 import org.json.JSONArray;
@@ -15,10 +17,9 @@ import org.json.JSONObject;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Set;
+import java.util.ArrayList;
 
 import es.jorgifumi.camarerooo.R;
-import es.jorgifumi.camarerooo.model.Allergen;
 import es.jorgifumi.camarerooo.model.Dish;
 import es.jorgifumi.camarerooo.model.Menu;
 
@@ -26,6 +27,7 @@ public class MenuActivity extends AppCompatActivity {
     private static final String TAG = "MenuActivity";
 
     private Menu mMenu;
+    private ArrayAdapter<Dish> mMenuArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +36,36 @@ public class MenuActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        mMenu = new Menu();
         downloadMenu();
 
-        //GridView gridMenu = new GridView(this, )
+        GridView gridMenu = (GridView) findViewById(R.id.gridView);
+
+        mMenuArrayAdapter = new ArrayAdapter<Dish>(
+                this,
+                android.R.layout.simple_list_item_1,
+                mMenu.getDishes()
+        );
+
+        gridMenu.setAdapter(mMenuArrayAdapter);
+
+        gridMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Dish selectedDish = mMenu.getDishes().get(position);
+                viewDish(selectedDish, position);
+            }
+        });
+    }
+
+    private void viewDish(Dish selectedDish, int position) {
+        Intent intent = new Intent(this, DishActivity.class);
+        intent.putExtra(DishActivity.EXTRA_CURRENT_DISH, selectedDish);
+        startActivity(intent);
+        finish();
     }
 
     private void downloadMenu() {
@@ -68,17 +97,23 @@ public class MenuActivity extends AppCompatActivity {
             JSONObject jsonRoot = new JSONObject(sb.toString());
             JSONArray dishes = jsonRoot.getJSONArray("dishes");
 
-            for (int i=1; i<dishes.length(); i++) {
+            for (int i=0; i<dishes.length(); i++) {
                 JSONObject dish = dishes.getJSONObject(i);
                 String name = dish.getString("name");
                 String description = dish.getString("description");
                 Float price = Float.valueOf(dish.getString("price"));
-                Set<Allergen> allergens = (Set<Allergen>) dish.getJSONArray("allergens");
+                ArrayList<String> allergens = new ArrayList<>();
+                JSONArray jsonAllergens = dish.getJSONArray("allergens");
+                for (int j=0;j<jsonAllergens.length();j++) {
+                    allergens.add(jsonAllergens.getString(j));
+                }
+
                 String imageURL = dish.getString("image");
 
-                mMenu.addDish(new Dish(name, description, price, allergens,imageURL));
-                Log.v(TAG, name);
+                mMenu.addDish(new Dish(name, description, price, allergens, imageURL));
             }
+
+            Log.v(TAG, "JSON Parsed");
 
 
         } catch (Exception ex) {

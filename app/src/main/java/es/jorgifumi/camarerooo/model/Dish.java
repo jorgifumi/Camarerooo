@@ -1,20 +1,22 @@
 package es.jorgifumi.camarerooo.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Set;
 
 /**
  * Created by jorgifumi on 13/04/16.
  */
-public class Dish {
+public class Dish implements Serializable {
     private String mName;
     private String mDescription;
     private Float mPrice;
-    private Set<Allergen> mAllergens;
+    private ArrayList<String> mAllergens;
     private String mImageURL;
     private String mNotes;
 
 
-    public Dish(String name, String description, Float price, Set<Allergen> allergens, String imageURL, String notes) {
+    public Dish(String name, String description, Float price, ArrayList<String> allergens, String imageURL, String notes) {
         mName = name;
         mDescription = description;
         mPrice = price;
@@ -23,7 +25,7 @@ public class Dish {
         mNotes = notes;
     }
 
-    public Dish(String name, String description, Float price, Set<Allergen> allergens, String imageURL) {
+    public Dish(String name, String description, Float price, ArrayList<String> allergens, String imageURL) {
         mName = name;
         mDescription = description;
         mPrice = price;
@@ -48,11 +50,11 @@ public class Dish {
         mDescription = description;
     }
 
-    public Set<Allergen> getAllergens() {
+    public ArrayList<String> getAllergens() {
         return mAllergens;
     }
 
-    public void setAllergens(Set<Allergen> allergens) {
+    public void setAllergens(ArrayList<String> allergens) {
         mAllergens = allergens;
     }
 
@@ -70,5 +72,10 @@ public class Dish {
 
     public void setNotes(String notes) {
         mNotes = notes;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
     }
 }
