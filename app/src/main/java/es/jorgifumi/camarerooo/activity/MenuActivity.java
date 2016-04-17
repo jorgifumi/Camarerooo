@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +37,7 @@ public class MenuActivity extends AppCompatActivity implements AddDishDialogFrag
 
     private Menu mMenu;
     private ArrayAdapter<Dish> mMenuArrayAdapter;
+    private ProgressBar mProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +47,14 @@ public class MenuActivity extends AppCompatActivity implements AddDishDialogFrag
         setSupportActionBar(toolbar);
 
         try {
-            sUrl = new URL("http://www.mocky.io/v2/57127a92110000aa1c0e06c1");
+            sUrl = new URL("http://www.mocky.io/v2/5713ec7c100000b220a413f2");
         } catch (MalformedURLException ex) {
             ex.printStackTrace();
         }
 
         mMenu = new Menu();
         mOrders = (Menu) getIntent().getSerializableExtra(EXTRA_CURRENT_ORDERS);
-        
+        mProgress = (ProgressBar) findViewById(R.id.menu_download_progress);
         downloadMenu();
 
         GridView gridMenu = (GridView) findViewById(R.id.gridView);
@@ -157,6 +159,7 @@ public class MenuActivity extends AppCompatActivity implements AddDishDialogFrag
                     ex.printStackTrace();
                 }
 
+                mProgress.setAlpha(0); // TODO: Fix this abomination
             }
         };
 

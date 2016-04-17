@@ -2,8 +2,13 @@ package es.jorgifumi.camarerooo.fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -11,7 +16,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import java.io.InputStream;
+import java.net.URL;
 
 import es.jorgifumi.camarerooo.R;
 import es.jorgifumi.camarerooo.model.Dish;
@@ -21,6 +30,8 @@ import es.jorgifumi.camarerooo.model.Dish;
  */
 public class AddDishDialogFragment extends DialogFragment {
     OnAddDishDialogFragmentListener mListener;
+    private Bitmap mBitmap;
+    private ImageView mImage;
 
     @NonNull
     @Override
@@ -64,8 +75,9 @@ public class AddDishDialogFragment extends DialogFragment {
         Button addDish = (Button) v.findViewById(R.id.dish_add_button);
         Button cancel = (Button) v.findViewById(R.id.dish_cancel_button);
 
-        ImageView image = (ImageView) v.findViewById(R.id.dish_image);
+        mImage = (ImageView) v.findViewById(R.id.dish_image);
         // TODO: Download and assign image
+        new LoadImage().execute(selectedDish.getImageURL());
         TextView title = (TextView) v.findViewById(R.id.dish_title_text);
         title.setText(selectedDish.getName());
         TextView description = (TextView) v.findViewById(R.id.dish_description_text);
@@ -113,5 +125,34 @@ public class AddDishDialogFragment extends DialogFragment {
     public interface OnAddDishDialogFragmentListener {
         void onAddDishButtonClick(Dish newDish);
         void onCancelButtonClick();
+    }
+
+    private class LoadImage extends AsyncTask<String, String, Bitmap> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+
+        }
+        protected Bitmap doInBackground(String... args) {
+            try {
+                mBitmap = BitmapFactory.decodeStream((InputStream)new URL(args[0]).getContent());
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return mBitmap;
+        }
+
+        protected void onPostExecute(Bitmap image) {
+
+            if(image != null){
+                mImage.setImageBitmap(image);
+
+            }else{
+
+                //Snackbar.make(findViewById(android.R.id.content), "Image Does Not exist or Network Error", Snackbar.LENGTH_SHORT).show();
+            }
+        }
     }
 }
