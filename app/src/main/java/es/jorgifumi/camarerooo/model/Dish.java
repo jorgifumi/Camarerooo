@@ -74,6 +74,10 @@ public class Dish implements Serializable {
         mNotes = notes;
     }
 
+    public Float getPrice() {
+        return mPrice;
+    }
+
     @Override
     public String toString() {
         return getName();

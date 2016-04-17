@@ -1,9 +1,11 @@
 package es.jorgifumi.camarerooo.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -58,8 +60,19 @@ public class TableActivity extends AppCompatActivity {
     }
 
     private void viewTotal() {
-        Snackbar.make(findViewById(android.R.id.content), "View total", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+        //Snackbar.make(findViewById(android.R.id.content), "View total", Snackbar.LENGTH_LONG)
+        //        .setAction("Action", null).show();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("El total de la cuenta es: " + Float.toString(mTable.getOrders().getTotal()) + "€")
+                .setTitle("Total")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+        });
+
+        builder.create().show();
     }
 
     @Override
@@ -96,19 +109,5 @@ public class TableActivity extends AppCompatActivity {
                 }
             }
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        Log.v(TAG, "On Destroy");
     }
 }

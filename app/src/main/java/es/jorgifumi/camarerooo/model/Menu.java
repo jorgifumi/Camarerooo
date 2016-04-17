@@ -29,4 +29,13 @@ public class Menu implements Serializable {
     public void addDish(Dish dish) {
         mDishes.add(dish);
     }
+
+    public float getTotal() {
+        float total = 0;
+
+        for (Dish dish:this.getDishes()) {
+            total += dish.getPrice();
+        }
+        return total;
+    }
 }

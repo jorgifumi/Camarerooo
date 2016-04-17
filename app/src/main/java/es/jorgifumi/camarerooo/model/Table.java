@@ -10,20 +10,17 @@ public class Table implements Serializable {
     private String mName;
     private int mNumDiners;
     private Menu mOrders;
-    private Float mBill;
 
     public Table(String name, int numDiners, Menu orders, Float bill) {
         mName = name;
         mNumDiners = numDiners;
         mOrders = orders;
-        mBill = bill;
     }
 
     public Table(String name, int numDiners) {
         mName = name;
         mNumDiners = numDiners;
         mOrders = new Menu();
-        mBill = 0.00f;
     }
 
     public String getName() {
@@ -48,14 +45,6 @@ public class Table implements Serializable {
 
     public void setOrders(Menu orders) {
         mOrders = orders;
-    }
-
-    public Float getBill() {
-        return mBill;
-    }
-
-    public void setBill(Float bill) {
-        mBill = bill;
     }
 
     @Override
